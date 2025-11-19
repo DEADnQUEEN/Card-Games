@@ -14,11 +14,16 @@ const (
 	Queen = 12
 	King  = 13
 	Ace   = 14
+
+	Heart   = "\u2665"
+	Diamond = "\u2666"
+	Club    = "\u2663"
+	Spades  = "\u2660"
 )
 
-var suits = []string{"Heart", "Diamond", "Club", "Spades"}
+var suits = []string{Heart, Diamond, Club, Spades}
 
-var naming = map[int]string{
+var valueNaming = map[int]string{
 	Valet: "Valet",
 	Queen: "Queen",
 	King:  "King",
@@ -33,7 +38,7 @@ type DefaultCard struct {
 }
 
 func (card *DefaultCard) GetStringValue() string {
-	var name, ok = naming[card.value]
+	var name, ok = valueNaming[card.value]
 	if !ok {
 		return fmt.Sprintf("%v", card.value)
 	}
@@ -47,12 +52,7 @@ func (card *DefaultCard) GetStringSuit() string {
 	if card.suit >= len(suits) {
 		panic("out of range")
 	}
-	var suit = suits[card.suit]
-	if len(suit) == 0 {
-		panic("suit must have any letters")
-	}
-
-	return fmt.Sprintf("%c", suit[0])
+	return suits[card.suit]
 }
 
 func (card *DefaultCard) String() string {

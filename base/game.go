@@ -19,15 +19,14 @@ type FoolGame struct {
 }
 
 func (game *FoolGame) ShowCards() {
-	var width = len(fmt.Sprintf("%d", len(game.playableCards)))
-	for index, card := range game.playableCards {
-		var skip = ""
-
-		for i := len(fmt.Sprintf("%d", index)); i < width; i++ {
-			skip += " "
+	fmt.Println("Playable cards")
+	var lastSuit int
+	for _, card := range game.playableCards {
+		if lastSuit != card.suit {
+			fmt.Print("\n")
 		}
-
-		fmt.Printf("%s%d | %s\n", skip, index, card)
+		fmt.Print(card, " ")
+		lastSuit = card.suit
 	}
 }
 
