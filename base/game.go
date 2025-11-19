@@ -61,5 +61,9 @@ func NewFoolGame(cardsAmount int, playerCount int) (*FoolGame, error) {
 		}
 	}
 
-	return &FoolGame{playableCards: cards, deck: deck}, nil
+	return &FoolGame{
+		playableCards: cards,
+		deck:          deck,
+		players:       make([]Player, playerCount),
+	}, nil
 }
