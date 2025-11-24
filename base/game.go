@@ -18,16 +18,19 @@ type FoolGame struct {
 	players []Player
 }
 
-func (game *FoolGame) ShowCards() {
-	fmt.Println("Playable cards")
-	var lastSuit int
-	for _, card := range game.playableCards {
-		if lastSuit != card.suit {
-			fmt.Print("\n")
+func (game *FoolGame) ShowAllPlayableCards() {
+	fmt.Println("Playable cards: ")
+
+	var group = len(game.playableCards) / len(suits)
+
+	for i := 0; i < len(game.playableCards); i += group {
+		var cards = make([]*DefaultCard, 0, group)
+		for j := 0; j < group && j+i < len(game.playableCards); j++ {
+			cards = append(cards, &*game.playableCards[i+j])
 		}
-		fmt.Print(card, " ")
-		lastSuit = card.suit
+		fmt.Println(StackCardsInRow(cards))
 	}
+
 }
 
 func (game *FoolGame) ShuffleDeck() {
@@ -50,11 +53,7 @@ func NewFoolGame(cardsAmount int, playerCount int) (*FoolGame, error) {
 
 	for cardValue := 0; cardValue < cardsAmount; cardValue++ {
 		for suit := 0; suit < len(suits); suit++ {
-			var card = &DefaultCard{
-				value:  cardValue + start,
-				suit:   suit,
-				isMain: suit == mainSuit,
-			}
+			var card = CreateCard(cardValue+start, suit, suit == mainSuit)
 			cards[cardValue+(cardsAmount*suit)] = card
 			deck.Enqueue(card)
 		}
